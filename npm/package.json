@@ -1,0 +1,31 @@
+{
+  "name": "@hqli/wasm-imagequant",
+  "type": "module",
+  "version": "0.1.4",
+  "description": "Fork of wasm-imagequant 0.1.4 with full-strength error diffusion, so smooth gradients don't band",
+  "license": "MIT OR Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Simonl59/wasm-imagequant.git"
+  },
+  "homepage": "https://github.com/Simonl59/wasm-imagequant",
+  "files": [
+    "wasm_imagequant_bg.wasm",
+    "wasm_imagequant.js",
+    "wasm_imagequant.d.ts",
+    "LICENSE-MIT",
+    "LICENSE-APACHE"
+  ],
+  "main": "wasm_imagequant.js",
+  "types": "wasm_imagequant.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ],
+  "keywords": [
+    "wasm",
+    "webassembly",
+    "imagequant",
+    "pngquant",
+    "image-compression"
+  ]
+}

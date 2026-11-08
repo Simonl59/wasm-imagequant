@@ -60,7 +60,7 @@ impl DitherEngine {
                     RGBA::new(cur_r.round() as u8, cur_g.round() as u8, cur_b.round() as u8, cur_a.round() as u8);
 
                 // 相邻连续相同像素极速命中（跳过 Oklab 转换与树搜索）
-                let (pal_idx, dist_sq) = if has_last && adjusted_pixel == last_adj {
+                let (pal_idx, _dist_sq) = if has_last && adjusted_pixel == last_adj {
                     (last_match, last_dist_sq)
                 } else {
                     let adj_oklab = adjusted_pixel.to_oklab();
@@ -80,10 +80,8 @@ impl DitherEngine {
 
                 let mapped_color = palette.entries[pal_idx as usize];
 
-                // 自适应噪点抑制 (Adaptive Dithering)：
-                // 直接复用 VP-Tree 计算所得的感知色差平方，无需重复消耗 CPU 进行 sRGB->Oklab 逆向投影
-                let adapt_factor = (dist_sq / 0.0025).clamp(0.15, 1.0);
-                let effective_dither = dither_strength * adapt_factor;
+                // Full error diffusion: damping small errors by their perceptual distance left smooth gradients banded.
+                let effective_dither = dither_strength;
 
                 let mut diff_r = (cur_r - mapped_color.r as f32) * effective_dither;
                 let mut diff_g = (cur_g - mapped_color.g as f32) * effective_dither;
